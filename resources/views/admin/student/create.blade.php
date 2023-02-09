@@ -31,72 +31,54 @@
     <div class="animated fadeIn">
       <div class="row">
         <div class="col-lg-12"></div>
-        <!--/.col-->
-        {{-- <?php 
-        if(isset($errors_arr['Database_Connection_Exception'])){ ?>
-        <div style="padding: 20px; background-color: #f44336; width:100% ;color: white; margin-bottom: 15px;">;
-        <span style="margin-left: 15px; color: white; font-weight: bold; float: right; font-size: 22px; line-height: 20px; cursor: pointer; transition: 0.3s;" onclick="this.parentElement.style.display=\'none\';">&times;</span>
-        <strong>Danger!</strong> <?php echo $errors_arr['Database_Connection_Exception'] ?>;.
-        </div>';
-         <?php } ?> --}}
+        
+        @if(Session::has("success") )
+            <div class="alert alert-success">
+                {{ Session::get('success') }}
+            </div>
+        @endif
+
+
+
         <div class="col-lg-12">
           <div class="card">
             <div class="card-header">
               <strong>Basic Form</strong> Elements
             </div>
-
             <div class="card-body card-block">
+                
               <form
-                action="" 
+                action="{{ route('student.store') }}" 
                 method="post"
                 enctype="multipart/form-data"
                 class="form-horizontal"
-                @srf
+               
               >
-             
+              @csrf
 
                 <div class="row form-group">
                   <div class="col col-md-3">
                     <label for="text-input" class="form-control-label"
-                      >First Name</label
+                      >Full Name</label
                     >
                   </div>
                   <div class="col-12 col-md-9">
                     <input
                       type="text"
                       id="text-input"
-                      name="First_Name"
-                      value="Mohamed"
-                      class="form-control"
+                      name="name"
+                      value="{{ old('name') }}"
+                      class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}"
                     />
-                    {{-- <?php if(isset($errors_arr['First-name_required'])){ ?>
-                          <small class="form-text text-muted" style="color:red !important"><?php echo $errors_arr['First-name_required'] ?></small>
-                    <?php } ?> --}}
-             
+                     @if ($errors->has('name'))
+                            <div class="invalid-feedback">
+                                {{ $errors->first('name') }}
+                            </div>
+                      @endif
                   </div>
                 </div>
 
-              <!-- ------------------------- -->
 
-                <div class="row form-group">
-                  <div class="col col-md-3">
-                    <label for="text-input" class="form-control-label"
-                      >Last Name</label
-                    >
-                  </div>
-                  <div class="col-12 col-md-9">
-                    <input
-                      type="text"
-                      id="text-input"
-                      name="Last_Name"
-                      value="Abo El-Seoud"
-                      class="form-control"
-                    />
-                    {{-- <?php if(isset($errors_arr['Last-name_required'])){ ?>
-                          <small class="form-text text-muted" style="color:red !important"><?php echo $errors_arr['Last-name_required'] ?></small>
-                    <?php } ?> --}}
-                  </div>
-                </div>
 
               <!-- ------------------------- -->
 
@@ -110,13 +92,15 @@
                     <input
                       type="mail"
                       id="text-input"
-                      name="Email"
-                      value="@me.com"
-                      class="form-control"
+                      name="email"
+                      value="{{ old('email') }}"
+                      class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}"
                     />
-                    {{-- <?php if(isset($errors_arr['Email_required'])){ ?>
-                          <small class="form-text text-muted" style="color:red !important"><?php echo $errors_arr['Email_required'] ?></small>
-                    <?php } ?> --}}
+                    @if ($errors->has('email'))
+                        <div class="invalid-feedback">
+                            {{ $errors->first('email') }}
+                        </div>
+                    @endif
                   </div>
                 </div>
 
@@ -133,12 +117,14 @@
                       type="password"
                       id="text-input"
                       name="password"
-                      value="Mobo124322"
-                      class="form-control"
+                      value="{{ old('password') }}"
+                      class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
                     />
-                    {{-- <?php if(isset($errors_arr['password_invalid'])){ ?>
-                          <small class="form-text text-muted" style="color:red !important"><?php echo $errors_arr['password_invalid'] ?></small>
-                    <?php } ?> --}}
+                    @if ($errors->has('password'))
+                            <div class="invalid-feedback">
+                                {{ $errors->first('password') }}
+                            </div>
+                      @endif
                   </div>
                 </div>
 
@@ -153,16 +139,15 @@
                     <input
                       type="text"
                       id="text-input"
-                      name="phone"
-                      value=""
-                      class="form-control"
+                      name="phone_number"
+                      value="{{ old('phone_number') }}"
+                      class="form-control {{ $errors->has('phone_number') ? 'is-invalid' : '' }}"
                     />
-                    {{-- <?php if(isset($errors_arr['Phone_required'])){ ?>
-                          <small class="form-text text-muted" style="color:red !important"><?php echo $errors_arr['Phone_required'] ?></small>
-                    <?php } ?>
-                    <?php if(isset($errors_arr['phone_int'])){ ?>
-                          <small class="form-text text-muted" style="color:red !important"><?php echo $errors_arr['phone_int'] ?></small>
-                    <?php } ?> --}}
+                     @if ($errors->has('phone_number'))
+                            <div class="invalid-feedback">
+                                {{ $errors->first('phone_number') }}
+                            </div>
+                      @endif
                   </div>
                 </div>
 
@@ -180,8 +165,14 @@
                       id="textarea-input"
                       rows="5"
                       placeholder="Content..."
-                      class="form-control"
+                      value="{{ old('essay') }}"
+                      class="form-control {{ $errors->has('essay') ? 'is-invalid' : '' }}"
                     ></textarea>
+                    @if ($errors->has('essay'))
+                        <div class="invalid-feedback">
+                            {{ $errors->first('essay') }}
+                        </div>
+                     @endif
                   </div>
                 </div>
 
@@ -191,54 +182,68 @@
 
                 <div class="row form-group">
                   <div class="col-12 col-md-12">
-                    <select name="Department" id="select" class="form-control">
-                    <option value="-1">Select your department </option>
+                    <select name="department_number" id="select" class="form-control {{ $errors->has('department_number') ? 'is-invalid' : '' }}" value="{{old('department_number')}}">
+                    <option value="non">Select your department </option>
+                    <option value="1">Select your department </option>
+                    <option value="2">Select your department </option>
+                    <option value="3">Select your department </option>
+
                     {{-- <?php foreach($dept_data_arr as $dept){?>
-                      <option value="<?php echo $dept['number'] ?>"><?php echo $dept['name'] ?></option>
-                    <?php } ?>
+                      <option value="<?php echo $dept['number'] ?>"></option>
+                    <?php } ?> --}}
                     </select>
-                    <?php if(isset($errors_arr['Department_required'])){ ?>
-                          <small class="form-text text-muted" style="color:red !important"><?php echo $errors_arr['Department_required'] ?></small>
-                    <?php } ?> --}}
+                    @if ($errors->has('department_number'))
+                        <div class="invalid-feedback">
+                            {{ $errors->first('department_number') }}
+                        </div>
+                     @endif
                   </div>
                 </div>
 
               <!-- ------------------------- -->
 
-                <div class="row form-group">
-                  <div class="col col-md-3">
-                    <label class="form-control-label">Gender </label>
-                  </div>
-                  <div class="col-12 col-md-9">
-                    <div class="form-check-inline form-check">
-                      <label for="inline-radio1" class="form-check-label">
-                        <input
-                          type="radio"
-                          id="inline-radio1"
-                          name="Gender"
-                          value="m"
-                          class="form-check-input"
-                        />male
-                      </label>
-                      <label for="inline-radio2" class="form-check-label">
-                        <input
-                          type="radio"
-                          id="inline-radio2"
-                          name="Gender"
-                          value="f"
-                          class="form-check-input"
-                        />female
-                      </label>
-                    </div>
-                    {{-- <?php if(isset($errors_arr['gender_required'])){ ?>
-                          <small class="form-text text-muted" style="color:red !important"><?php echo $errors_arr['gender_required'] ?></small>
-                    <?php } ?> --}}
-                  </div>
+              <div class="row form-group">
+                <div class="col-12 col-md-3">
+                  <label class="form-control-label">Gender </label>
                 </div>
-
-              <!-- ------------------------- -->
+                <div class="col-12 col-md-9">
+                  <div class="form-check-inline form-check">
+                    <label for="inline-radio1" class="form-check-label">
+                      <input
+                        type="radio"
+                        id="inline-radio1"
+                        name="gender"
+                        value="m"  {{ old('gender') == 'm' ? 'checked' : '' }}
+                        class="form-check-input"
+                      />male
+                    </label>
+                    <label for="inline-radio2" class="form-check-label">
+                      <input
+                        type="radio"
+                        id="inline-radio2"
+                        name="gender"
+                        value="f"  {{ old('gender') == 'f' ? 'checked' : '' }}
+                        class="form-check-input"
+                      />female
+                    </label>
+                  </div>
+                  @if ($errors->has('gender'))
+                    <br>
+                    <span class="text-danger">{{ $errors->first('gender') }}</span>
+                 @endif
+   
+                </div>
+              </div>
 
                
+
+              <!-- ------------------------- -->
+              <div class="card-footer">
+                <input  type="submit" class="btn btn-primary btn-sm" name="Submitted" value="Submit">
+                </input>
+                <input type="reset" class="btn btn-danger btn-sm">
+                </input>
+              </div>
 
               </form>
             </div>
