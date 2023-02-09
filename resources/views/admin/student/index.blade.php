@@ -1,3 +1,4 @@
+<?php use  App\Models\student; ?>
 @extends("admin.layout.master")
 
 @section("title","Dashboard")
@@ -29,7 +30,10 @@
                           </thead>
                           <tbody>
                             @foreach ($students as $student)
-                           
+                           <?php 
+                            $student = student::find($student->id); 
+                            $departmentName = $student->department->name;
+                           ?>
                             
                             
                             <tr style="text-align:start;">
@@ -40,7 +44,7 @@
                             
                             <td style="border: 1px solid black; padding: 10px;">{{$student['email']}} </td>
 
-                            <td style="border: 1px solid black; padding: 10px;">{{$student['department_number']}} </td>
+                            <td style="border: 1px solid black; padding: 10px;">{{$departmentName}} </td>
                                
  
 

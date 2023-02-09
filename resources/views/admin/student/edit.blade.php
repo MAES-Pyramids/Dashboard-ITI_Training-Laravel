@@ -33,7 +33,7 @@
         <div class="col-lg-12"></div>
         
         @if(Session::has("success") )
-            <div class="alert alert-success">
+            <div class="alert alert-success" width="100%">
                 {{ Session::get('success') }}
             </div>
         @endif
@@ -47,27 +47,27 @@
             </div>
             <div class="card-body card-block">
                 
+
+
               <form
-                action="{{ route('student.store') }}" 
+                action="{{route('student.update', $student->id)}}"
                 method="post"
                 enctype="multipart/form-data"
                 class="form-horizontal"
-               
               >
               @csrf
+              @method('PUT')
 
                 <div class="row form-group">
                   <div class="col col-md-3">
-                    <label for="text-input" class="form-control-label"
-                      >Full Name</label
-                    >
+                    <label for="text-input" class="form-control-label">Full Name</label>
                   </div>
                   <div class="col-12 col-md-9">
                     <input
                       type="text"
                       id="text-input"
                       name="name"
-                      value="{{ old('name') }}"
+                      value="{{$student->name}}"
                       class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}"
                     />
                      @if ($errors->has('name'))
@@ -93,7 +93,7 @@
                       type="mail"
                       id="text-input"
                       name="email"
-                      value="{{ old('email') }}"
+                      value="{{$student->email}}"
                       class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}"
                     />
                     @if ($errors->has('email'))
@@ -117,7 +117,7 @@
                       type="password"
                       id="text-input"
                       name="password"
-                      value="{{ old('password') }}"
+                      value="{{$student->password}}"
                       class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
                     />
                     @if ($errors->has('password'))
@@ -140,7 +140,7 @@
                       type="text"
                       id="text-input"
                       name="phone_number"
-                      value="{{ old('phone_number') }}"
+                      value="{{$student->phone_number}}"
                       class="form-control {{ $errors->has('phone_number') ? 'is-invalid' : '' }}"
                     />
                      @if ($errors->has('phone_number'))
@@ -154,43 +154,13 @@
               <!-- ------------------------- -->
 
                 <div class="row form-group">
-                  <div class="col col-md-3">
-                    <label for="textarea-input" class="form-control-label"
-                      ><Address>why you want this scholarship</Address></label
-                    >
-                  </div>
-                  <div class="col-12 col-md-9">
-                    <textarea
-                      name="essay"
-                      id="textarea-input"
-                      rows="5"
-                      placeholder="Content..."
-                      value="{{ old('essay') }}"
-                      class="form-control {{ $errors->has('essay') ? 'is-invalid' : '' }}"
-                    ></textarea>
-                    @if ($errors->has('essay'))
-                        <div class="invalid-feedback">
-                            {{ $errors->first('essay') }}
-                        </div>
-                     @endif
-                  </div>
-                </div>
-
-
-                
-              <!-- ------------------------- -->
-
-                <div class="row form-group">
                   <div class="col-12 col-md-12">
-                    <select name="department_number" id="select" class="form-control {{ $errors->has('department_number') ? 'is-invalid' : '' }}" value="{{old('department_number')}}">
-                    <option value="non">Select your department </option>
-                    <option value="1">Select your department </option>
-                    <option value="2">Select your department </option>
-                    <option value="3">Select your department </option>
-
-                    {{-- <?php foreach($dept_data_arr as $dept){?>
-                      <option value="<?php echo $dept['number'] ?>"></option>
-                    <?php } ?> --}}
+                    <select name="department_number" id="select" class="form-control {{ $errors->has('department_number') ? 'is-invalid' : '' }}" value="{{$student->department_number}}">
+                    @foreach($departments as $department)
+                    <option value="{{$department->id}}}"
+                      <?php if($department['name'] == $departmentName){ ?> selected <?php } ?>>
+                     {{$department->name}}</option>
+                   @endforeach
                     </select>
                     @if ($errors->has('department_number'))
                         <div class="invalid-feedback">
@@ -213,8 +183,9 @@
                         type="radio"
                         id="inline-radio1"
                         name="gender"
-                        value="m"  {{ old('gender') == 'm' ? 'checked' : '' }}
+                        value=  'm'
                         class="form-check-input"
+                        {{ $student['gender'] == 'm' ? 'checked' : '' }}
                       />male
                     </label>
                     <label for="inline-radio2" class="form-check-label">
@@ -222,8 +193,9 @@
                         type="radio"
                         id="inline-radio2"
                         name="gender"
-                        value="f"  {{ old('gender') == 'f' ? 'checked' : '' }}
+                        value= 'f'
                         class="form-check-input"
+                        {{ $student->gender == 'f' ? 'checked' : '' }}
                       />female
                     </label>
                   </div>

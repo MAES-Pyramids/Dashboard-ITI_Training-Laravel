@@ -100,7 +100,7 @@
 
                                 <td style="border: 1px solid black; padding: 10px;">{{$student['password']}}</td>
 
-                                <td style="border: 1px solid black; padding: 10px;">{{$student['department_number']}}</td>
+                                <td style="border: 1px solid black; padding: 10px;">{{$departmentName}}</td>
 
                               
                                 </tr>

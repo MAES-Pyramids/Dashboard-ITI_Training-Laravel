@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use  App\Models\student;
+use  App\Models\department;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
@@ -26,7 +27,8 @@ class studentControler extends Controller
      */
     public function create()
     {
-        return view('admin.student.create');
+        $departments = department::all();
+        return view('admin.student.create',['departments'=>$departments]);
     }
 
     /**
@@ -60,9 +62,10 @@ class studentControler extends Controller
      */
     public function show($id)
     {
-        
         $student = student::find($id); 
-        return view('admin.student.show',['student'=>$student]);
+        
+        $departmentName = $student->department->name;
+        return view('admin.student.show',['student'=>$student, 'departmentName'=>$departmentName ]);
     }
 
     /**
@@ -73,7 +76,10 @@ class studentControler extends Controller
      */
     public function edit($id)
     {
-        //
+        $student = student::find($id); 
+        $departments = department::all();
+        $departmentName = $student->department->name;
+        return view('admin.student.edit',['student'=>$student, 'departmentName'=>$departmentName , 'departments'=>$departments]);
     }
 
     /**
@@ -83,10 +89,30 @@ class studentControler extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'phone_number' => 'required|numeric',
+            'email' => 'required|email',
+            'password' => 'required|min:8',
+            'department_number' => 'required|numeric',
+            'gender' => 'required|in:m,f',
+        ]);
+
+        $student = student::find($id);
+        $student->name = $request->input('name');
+        $student->phone_number = $request->input('phone_number');
+        $student->email = $request->input('email');
+        $student->password = bcrypt($request->input('password'));
+        $student->gender = $request->input('gender');
+        $student->department_number = $request->input('department_number');
+        $student->save();
+
+        return redirect()->route('student.index')->with('success', 'Student data has been updated successfully.');
     }
+    
 
     /**
      * Remove the specified resource from storage.

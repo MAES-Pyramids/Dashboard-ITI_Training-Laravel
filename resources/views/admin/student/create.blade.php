@@ -184,13 +184,9 @@
                   <div class="col-12 col-md-12">
                     <select name="department_number" id="select" class="form-control {{ $errors->has('department_number') ? 'is-invalid' : '' }}" value="{{old('department_number')}}">
                     <option value="non">Select your department </option>
-                    <option value="1">Select your department </option>
-                    <option value="2">Select your department </option>
-                    <option value="3">Select your department </option>
-
-                    {{-- <?php foreach($dept_data_arr as $dept){?>
-                      <option value="<?php echo $dept['number'] ?>"></option>
-                    <?php } ?> --}}
+                     @foreach($departments as $department)
+                      <option value=" {{$department['id']}}">{{$department['name']}}</option>
+                     @endforeach
                     </select>
                     @if ($errors->has('department_number'))
                         <div class="invalid-feedback">

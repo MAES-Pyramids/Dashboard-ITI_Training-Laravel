@@ -11,4 +11,10 @@ class student extends Model
     protected $fillable = [
         'name', 'email', 'phone_number', 'department_number', 'password', 'gender'
     ];  
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'department_number');
+    }
+
 }
